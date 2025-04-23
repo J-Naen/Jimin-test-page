@@ -1,5 +1,5 @@
 import React, { useState, KeyboardEvent } from 'react';
-import { Search } from 'lucide-react';
+import { Send } from 'lucide-react';
 
 interface SearchBarProps {
   onSubmit: (content: string) => void;
@@ -35,7 +35,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSubmit }) => {
           onClick={handleSubmit}
           aria-label="메모 입력"
         >
-          <Search size={20} />
+          <Send size={20} />
         </button>
       </div>
     </div>

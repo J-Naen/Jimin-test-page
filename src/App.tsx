@@ -16,10 +16,8 @@ function App() {
   );
   const [activeBoard, setActiveBoard] = useState<number>(1);
 
-  // 현재 활성화된 게시판 가져오기
   const currentBoard = boards.find(board => board.id === activeBoard) || boards[0];
 
-  // 메모 추가 함수
   const addMemo = (content: string) => {
     if (!content.trim()) return;
 
@@ -43,24 +41,33 @@ function App() {
     localStorage.setItem('memo-boards', JSON.stringify(updatedBoards));
   };
 
-  // 게시판 변경 함수
   const changeBoard = (boardId: number) => {
     setActiveBoard(boardId);
+  };
+
+  const updateBoardName = (boardId: number, newName: string) => {
+    const updatedBoards = boards.map(board => {
+      if (board.id === boardId) {
+        return { ...board, name: newName };
+      }
+      return board;
+    });
+    setBoards(updatedBoards);
+    localStorage.setItem('memo-boards', JSON.stringify(updatedBoards));
   };
 
   return (
     <div className="min-h-screen bg-white flex flex-col">
       <main className="flex-grow flex flex-col items-center px-4 py-8">
         <div className="w-full max-w-3xl mx-auto">
-          <h1 className="text-2xl font-bold text-gray-800 text-center mb-2">
-            메모 애플리케이션
-          </h1>
-          
-          <TabsBar 
-            boards={boards} 
-            activeBoard={activeBoard} 
-            onChangeBoard={changeBoard} 
-          />
+          <div className="mt-4">
+            <TabsBar 
+              boards={boards} 
+              activeBoard={activeBoard} 
+              onChangeBoard={changeBoard}
+              onUpdateBoardName={updateBoardName}
+            />
+          </div>
           
           <div className="mt-8 mb-6">
             <SearchBar onSubmit={addMemo} />
@@ -74,9 +81,6 @@ function App() {
           </div>
         </div>
       </main>
-      <footer className="py-4 text-center text-gray-500 text-sm">
-        © 2025 메모 애플리케이션
-      </footer>
     </div>
   );
 }
